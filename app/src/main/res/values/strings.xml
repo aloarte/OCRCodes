@@ -2,4 +2,6 @@
     <string name="app_name">OCRCodes</string>
     <string name="run_ocr">Run OCR</string>
     <string name="ocr_text_desc">OCR Text will appear here</string>
+    <string name="title_activity_splash">SplashActivity</string>
+    <string name="title_activity_main">Main</string>
 </resources>

@@ -1,62 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="5sp"
     android:weightSum="1"
     tools:context=".MainActivity">
 
-    <RelativeLayout
-        android:id="@+id/rl_image"
+
+    <FrameLayout
+        android:id="@+id/camera_preview"
         android:layout_width="match_parent"
-        android:layout_height="0sp"
-        android:layout_weight="0.6"
-        android:background="#ffffff">
+        android:layout_height="match_parent" />
 
-        <ImageView
-            android:id="@+id/iv_code"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/test_image"
-            tools:ignore="ContentDescription" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rl_btn"
-        android:layout_width="match_parent"
-        android:layout_height="0sp"
-        android:layout_weight="0.10"
-        android:background="#167865"
-        android:onClick="processImage">
-
-        <TextView
-            android:id="@+id/btn_run_ocr"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:onClick="processImage"
-            android:text="@string/run_ocr"
-            android:textSize="18sp" />
-    </RelativeLayout>
-
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/rl_result"
         android:layout_width="match_parent"
-        android:layout_height="0sp"
-        android:layout_weight="0.30">
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/OCRTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
+            android:layout_gravity="center"
             android:text="@string/ocr_text_desc"
             android:textColor="#a3a3a3"
             android:textSize="18sp" />
-    </RelativeLayout>
-</LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

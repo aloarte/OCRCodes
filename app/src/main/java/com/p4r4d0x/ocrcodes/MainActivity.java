@@ -2,13 +2,17 @@ package com.p4r4d0x.ocrcodes;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
+import android.graphics.YuvImage;
+import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.googlecode.tesseract.android.TessBaseAPI;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -16,7 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Camera.PreviewCallback {
 
     /**
      * Bitmap con la imagen a procesar
@@ -33,12 +37,63 @@ public class MainActivity extends AppCompatActivity {
      */
     private TessBaseAPI mTess;
 
+    private Camera mCamera;
+    private CameraPreview mPreview;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initViews();
         initTessTwo();
+
+
+        // Create an instance of Camera
+        mCamera = getCameraInstance();
+
+        // Create our Preview view and set it as the content of our activity.
+        mPreview = new CameraPreview(this, mCamera);
+        mCamera.setPreviewCallback(this);
+        FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
+        preview.addView(mPreview);
+    }
+
+    /**
+     * Obtiene la instancia de la cámara
+     *
+     * @return objeto Camera
+     */
+    protected Camera getCameraInstance() {
+        Camera c = null;
+        try {
+            c = Camera.open();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return c;
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mCamera.release();
+    }
+
+    @Override
+    public void onPreviewFrame(final byte[] data, Camera camera) {
+        Camera.Parameters parameters = camera.getParameters();
+        int width = parameters.getPreviewSize().width;
+        int height = parameters.getPreviewSize().height;
+
+        YuvImage yuv = new YuvImage(data, parameters.getPreviewFormat(), width, height, null);
+
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        yuv.compressToJpeg(new Rect(0, 0, width, height), 50, out);
+
+        byte[] bytes = out.toByteArray();
+        final Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+
     }
 
     /**
@@ -67,10 +122,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void processImage(View view) {
+    /**
+     * Realiza el procesamiento por tesseract de un frame para extraer un código
+     *
+     * @param bmpFrame Bitmap a procesar
+     */
+    public String processImage(Bitmap bmpFrame) {
         mTess.setImage(image);
-        String ocrReaded = mTess.getUTF8Text();
-        tvResukltOCR.setText(ocrReaded);
+        return mTess.getUTF8Text();
     }
 
     /**
@@ -132,5 +191,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+
+
+
+
+
 
 }
