@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
         Camera.Parameters parameters = camera.getParameters();
         int width = parameters.getPreviewSize().width;
         int height = parameters.getPreviewSize().height;
-
+        String codeRecognized;
         YuvImage yuv = new YuvImage(data, parameters.getPreviewFormat(), width, height, null);
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -93,7 +93,8 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
 
         byte[] bytes = out.toByteArray();
         final Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-
+        codeRecognized = processImage(bitmap);
+        tvResukltOCR.setText(codeRecognized);
     }
 
     /**
@@ -128,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
      * @param bmpFrame Bitmap a procesar
      */
     public String processImage(Bitmap bmpFrame) {
-        mTess.setImage(image);
+        mTess.setImage(bmpFrame);
         return mTess.getUTF8Text();
     }
 
