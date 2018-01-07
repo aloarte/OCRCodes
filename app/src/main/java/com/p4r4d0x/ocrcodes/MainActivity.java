@@ -7,20 +7,13 @@ import android.graphics.YuvImage;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.googlecode.tesseract.android.TessBaseAPI;
-
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
-public class MainActivity extends AppCompatActivity implements Camera.PreviewCallback {
+public class MainActivity extends AppCompatActivity implements Camera.PreviewCallback, AsyncProcessCode.ProcessCodeCallback {
 
     /**
      * Bitmap con la imagen a procesar
@@ -33,19 +26,25 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
     TextView tvResukltOCR;
 
     /**
-     * Api de tess-two
+     * Objeto cámara
      */
-    private TessBaseAPI mTess;
-
     private Camera mCamera;
+
+    /**
+     * Camera preview donde se muestra la cámara
+     */
     private CameraPreview mPreview;
+
+    /**
+     * Flag que controla que no se lance un asynctask adicional si ya hay uno lanzado
+     */
+    private boolean processingFrameLock;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initViews();
-        initTessTwo();
 
 
         // Create an instance of Camera
@@ -73,7 +72,6 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
         return c;
     }
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -82,35 +80,29 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
 
     @Override
     public void onPreviewFrame(final byte[] data, Camera camera) {
-        Camera.Parameters parameters = camera.getParameters();
-        int width = parameters.getPreviewSize().width;
-        int height = parameters.getPreviewSize().height;
-        String codeRecognized;
-        YuvImage yuv = new YuvImage(data, parameters.getPreviewFormat(), width, height, null);
-
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        yuv.compressToJpeg(new Rect(0, 0, width, height), 50, out);
-
-        byte[] bytes = out.toByteArray();
-        final Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-        codeRecognized = processImage(bitmap);
-        tvResukltOCR.setText(codeRecognized);
-    }
-
-    /**
-     * Inicializa tesseract
-     */
-    private void initTessTwo() {
-        String datapath = getFilesDir() + "/tesseract/";
-        String language = "eng";
-
-        /*
-         * Se copian los recursos de tesseract al dispositivo
+        /**
+         * Comprueba que no haya un frame que esté siendo procesado. En caso afirmativo, parsea
+         * la imagen en un bitmap y llama a un asynctask para procesarlo con tess-two
          */
-        copyTesseractFiles(new File(datapath + "tessdata/"), datapath);
+        if (!processingFrameLock) {
 
-        mTess = new TessBaseAPI();
-        mTess.init(datapath, language);
+            processingFrameLock = true;
+            Camera.Parameters parameters = camera.getParameters();
+            int width = parameters.getPreviewSize().width;
+            int height = parameters.getPreviewSize().height;
+            YuvImage yuv = new YuvImage(data, parameters.getPreviewFormat(), width, height, null);
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            yuv.compressToJpeg(new Rect(0, 0, width, height), 50, out);
+            byte[] bytes = out.toByteArray();
+
+            /*
+             * Obtiene el bitmap final y llama al asynctask para ejecutar tess-two,
+             * de lo contrario el hilo principal no es capaz de correr con normalidad
+             */
+            final Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+            new AsyncProcessCode(this, this).execute(bitmap);
+
+        }
 
     }
 
@@ -123,80 +115,18 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
 
     }
 
-    /**
-     * Realiza el procesamiento por tesseract de un frame para extraer un código
-     *
-     * @param bmpFrame Bitmap a procesar
-     */
-    public String processImage(Bitmap bmpFrame) {
-        mTess.setImage(bmpFrame);
-        return mTess.getUTF8Text();
+
+    @Override
+    public void onProcessingFrame(ProcessStatus procStatus) {
+        Log.d("ALRALR", "onProcessingFrame");
+        processingFrameLock = false;
     }
 
-    /**
-     * Obtiene de la carpeta de assets el fichero eng.traineddata y lo copia en el móvil para
-     * que tesseract pueda usarlo
-     */
-    private boolean copyTesseractFiles(File directory, String dataPath) {
-         /*
-         * El path del fichero completo
-         */
-        String filepath = dataPath + "/tessdata/eng.traineddata";
+    @Override
+    public void onFinishProcessingFrame(String procCode) {
+        Log.d("ALRALR", "onFinishProcessingFrame");
 
-        /*
-         * Comprueba que el directorio exista
-         */
-        if ((!directory.exists() && directory.mkdirs()) || directory.exists()) {
-            File datafile = new File(filepath);
-            /*
-             * Comprueba que el fichero no exista ya previamente para no volver a crearlo
-             */
-            if (!datafile.exists()) {
-                try {
-
-                    /*
-                     * Se obtiene el asset eng.traineddata y se prepara para escribirlo en el directorio
-                     */
-                    InputStream isData = getAssets().open("tessdata/eng.traineddata");
-                    OutputStream osData = new FileOutputStream(filepath);
-
-                    /*
-                     * Se escribe el fichero
-                     */
-                    byte[] buffer = new byte[1024];
-                    int read;
-                    while ((read = isData.read(buffer)) != -1) {
-                        osData.write(buffer, 0, read);
-                    }
-                    osData.flush();
-                    osData.close();
-                    isData.close();
-                    return true;
-
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                    return false;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return false;
-                }
-            }
-            /*
-             * Si el fichero ya existía, no se vuelve a crear
-             */
-            else {
-                return true;
-            }
-        } else {
-            return false;
-        }
-
+        processingFrameLock = false;
+        tvResukltOCR.setText(procCode);
     }
-
-
-
-
-
-
-
 }
