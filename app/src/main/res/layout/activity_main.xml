@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,14 +11,70 @@
     <FrameLayout
         android:id="@+id/camera_preview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+    </FrameLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/ll_vertical_margin_top"
+            android:layout_width="match_parent"
+            android:layout_height="0sp"
+            android:layout_weight="0.5"
+            android:orientation="horizontal">
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_vertical_container"
+            android:layout_width="match_parent"
+            android:layout_height="0sp"
+            android:layout_weight="0.2"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0sp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.16"
+                android:orientation="vertical"
+                tools:ignore="NestedWeights,UselessLeaf" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="0sp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.68"
+                android:contentDescription="@string/capture_rect"
+                app:srcCompat="@drawable/rectangle" />
+
+            <LinearLayout
+                android:layout_width="0sp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.16"
+                android:orientation="vertical"
+                tools:ignore="UselessLeaf" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_vertical_margin_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="0sp"
+            android:layout_weight="0.3"
+            android:orientation="horizontal" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/rl_result"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="false"
+        android:layout_centerVertical="false"
         android:orientation="vertical">
 
         <TextView
@@ -28,5 +85,6 @@
             android:text="@string/ocr_text_desc"
             android:textColor="#a3a3a3"
             android:textSize="18sp" />
+
     </LinearLayout>
 </RelativeLayout>

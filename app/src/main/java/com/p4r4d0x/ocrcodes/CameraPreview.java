@@ -1,10 +1,11 @@
 package com.p4r4d0x.ocrcodes;
 
-/**
+/*
  * Clase que representa una SurfaceView para mostrar las imágenes de la cámara extraidas
  * Created by aloarte on 03/01/2018.
  */
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.hardware.Camera;
 import android.util.Log;
@@ -21,6 +22,7 @@ import java.util.List;
 import static android.content.ContentValues.TAG;
 import static android.content.Context.WINDOW_SERVICE;
 
+@SuppressLint("ViewConstructor")
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
 
 
@@ -53,6 +55,12 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
     public void surfaceCreated(SurfaceHolder holder) {
         try {
+            Camera.Parameters parameters = mCamera.getParameters();
+            List<String> focusModes = parameters.getSupportedFocusModes();
+            if (focusModes.contains(Camera.Parameters.FOCUS_MODE_AUTO)) {
+                parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
+            }
+            mCamera.setParameters(parameters);
             mCamera.setPreviewDisplay(holder);
             mCamera.startPreview();
 
@@ -125,7 +133,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
      */
     private Camera.Size getBestSupportedSize(List<Camera.Size> supportedPictureSizes) {
         Iterator<Camera.Size> it = supportedPictureSizes.iterator();
-        Camera.Size auxSize = null;
+        Camera.Size auxSize;
         int maxSizeValue = 0;
         Camera.Size maxSize = null;
 
