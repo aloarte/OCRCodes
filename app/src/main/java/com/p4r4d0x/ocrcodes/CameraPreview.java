@@ -110,7 +110,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         /*
          * Pone el autofocus
          */
-        parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
+        parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
 
         /*
          * La primera iteración puede lanzar una excepción.

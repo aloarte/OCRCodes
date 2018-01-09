@@ -1,19 +1,24 @@
 package com.p4r4d0x.ocrcodes;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.graphics.YuvImage;
 import android.hardware.Camera;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import java.io.ByteArrayOutputStream;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements Camera.PreviewCallback, AsyncProcessCode.ProcessCodeCallback {
+public class MainActivity extends AppCompatActivity implements Camera.PreviewCallback, AsyncProcessCode.ProcessCodeCallback, Camera.AutoFocusCallback {
 
     /**
      * Relación del tamaño que ocupa el ancho del bitmap a cortar con la ROI
@@ -50,6 +55,11 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
     private Camera mCamera;
 
     /**
+     * Preview de la cámara
+     */
+    private FrameLayout preview;
+
+    /**
      * Camera preview donde se muestra la cámara
      */
     private CameraPreview mPreview;
@@ -65,14 +75,12 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
         setContentView(R.layout.activity_main);
         initViews();
 
-
-        // Create an instance of Camera
+        /**
+         * Crea la instancia de la cámara, la preview y las vincula
+         */
         mCamera = getCameraInstance();
-
-        // Create our Preview view and set it as the content of our activity.
         mPreview = new CameraPreview(this, mCamera);
         mCamera.setPreviewCallback(this);
-        FrameLayout preview = findViewById(R.id.camera_preview);
         preview.addView(mPreview);
     }
 
@@ -94,7 +102,11 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mCamera.stopPreview();
+        mCamera.setOneShotPreviewCallback(null);
+        mCamera = null;
         mCamera.release();
+
     }
 
     @Override
@@ -139,11 +151,55 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
     /**
      * Inicializa las vistas de la actividad
      */
+    @SuppressLint("ClickableViewAccessibility")
     private void initViews() {
+        preview = findViewById(R.id.camera_preview);
+
         tvResukltOCR = findViewById(R.id.OCRTextView);
         image = BitmapFactory.decodeResource(getResources(), R.drawable.test_image);
 
+        /*
+         * Cuando se toca sobre la superficie de la pantalla se hace autofocus
+         */
+        preview.setClickable(true);
+        preview.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                focusCamera();
+                return true;
+            }
+        });
 
+    }
+
+    /**
+     * Realiza un enfocado d ela imágen de la cámara
+     */
+    public void focusCamera() {
+        if (mCamera != null) {
+            Camera.Parameters params = mCamera.getParameters();
+            /*
+             * Cancela el autofocus y obtiene la lista de focus posibles para asignarle el automatico
+             */
+            mCamera.cancelAutoFocus();
+            List<String> autoFocusModes = params.getSupportedFocusModes();
+            if (autoFocusModes.contains(Camera.Parameters.FOCUS_MODE_AUTO)) {
+                params.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
+                mCamera.setParameters(params);
+            }
+
+            /*
+             * Realiza el autofocus
+             */
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mCamera.autoFocus(MainActivity.this);
+                }
+            }, 50);
+
+            mCamera.autoFocus(this);
+        }
     }
 
 
@@ -159,5 +215,10 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
 
         processingFrameLock = false;
         tvResukltOCR.setText(procCode);
+    }
+
+    @Override
+    public void onAutoFocus(boolean b, Camera camera) {
+
     }
 }

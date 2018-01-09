@@ -75,6 +75,27 @@ public class AsyncProcessCode extends AsyncTask<Bitmap, String, String> {
      */
     private String processImage(Bitmap bmpFrame) {
         mTess.setImage(bmpFrame);
+//        //Para que use el diccionario
+//        mTess.setVariable("load_system_dawg","0"	);
+//        mTess.setVariable("VAR_CHAR_BLACKLIST","0000-0000-0000-0000");
+//        mTess.setVariable("VAR_CHAR_WHITELIST","0000-0000-0000-0000");
+        mTess.setDebug(true);
+        mTess.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST, "ABCDEFGHIJKLMNOPQRSTUVXWYZ1234567890");
+
+        mTess.setPageSegMode(TessBaseAPI.PageSegMode.PSM_SINGLE_CHAR);
+        mTess.setVariable("load_system_dawg", TessBaseAPI.VAR_FALSE);
+        mTess.setVariable("load_freq_dawg", TessBaseAPI.VAR_FALSE);
+        mTess.setVariable("load_punc_dawg", TessBaseAPI.VAR_FALSE);
+        mTess.setVariable("load_number_dawg", TessBaseAPI.VAR_TRUE);
+        mTess.setVariable("load_unambig_dawg", TessBaseAPI.VAR_FALSE);
+        mTess.setVariable("load_bigram_dawg", TessBaseAPI.VAR_FALSE);
+        mTess.setVariable("load_fixed_length_dawgs", TessBaseAPI.VAR_FALSE);
+        mTess.setVariable("segment_penalty_garbage", TessBaseAPI.VAR_FALSE);
+        mTess.setVariable("segment_penalty_dict_nonword", TessBaseAPI.VAR_FALSE);
+        mTess.setVariable("segment_penalty_dict_frequent_word", TessBaseAPI.VAR_FALSE);
+        mTess.setVariable("segment_penalty_dict_case_ok", TessBaseAPI.VAR_FALSE);
+        mTess.setVariable("segment_penalty_dict_case_bad", TessBaseAPI.VAR_FALSE);
+
         return mTess.getUTF8Text();
     }
 
@@ -96,14 +117,14 @@ public class AsyncProcessCode extends AsyncTask<Bitmap, String, String> {
     }
 
     /**
-     * Obtiene de la carpeta de assets el fichero eng.traineddata y lo copia en el móvil para
+     * Obtiene de la carpeta de assets el fichero ocrb.traineddata y lo copia en el móvil para
      * que tesseract pueda usarlo
      */
     private boolean copyTesseractFiles(File directory, String dataPath) {
          /*
          * El path del fichero completo
          */
-        String filepath = dataPath + "/tessdata/eng.traineddata";
+        String filepath = dataPath + "/tessdata/ocrb.traineddata";
 
         /*
          * Comprueba que el directorio exista
@@ -117,9 +138,9 @@ public class AsyncProcessCode extends AsyncTask<Bitmap, String, String> {
                 try {
 
                     /*
-                     * Se obtiene el asset eng.traineddata y se prepara para escribirlo en el directorio
+                     * Se obtiene el asset ocrb.traineddata y se prepara para escribirlo en el directorio
                      */
-                    InputStream isData = appContext.getAssets().open("tessdata/eng.traineddata");
+                    InputStream isData = appContext.getAssets().open("tessdata/ocrb.traineddata");
                     OutputStream osData = new FileOutputStream(filepath);
 
                     /*
