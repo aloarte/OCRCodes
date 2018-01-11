@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
         YuvImage yuvFrame;
         ByteArrayOutputStream baosFrame;
         byte[] bytesFrame;
-        Bitmap bmpFrame, bmpCroppedFrame;
+        Bitmap bmpFrame, bmpCroppedFrame, binarizedBitmap;
         /*
          * Comprueba que no haya un frame que esté siendo procesado. En caso afirmativo, parsea
          * la imagen en un bitmap y llama a un asynctask para procesarlo con tess-two
@@ -142,7 +142,9 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
              */
             bmpFrame = BitmapFactory.decodeByteArray(bytesFrame, 0, bytesFrame.length);
             bmpCroppedFrame = Bitmap.createBitmap(bmpFrame, cropMarginWidth, cropMarginHeight, cropAreaWidth, cropAreaHeight);
-            new AsyncProcessCode(this, this).execute(bmpCroppedFrame);
+            Bitmap bmp = bmpCroppedFrame;
+            binarizedBitmap = BitmapUtils.binarizeBitmap(bmp);
+            new AsyncProcessCode(this, this).execute(binarizedBitmap);
 
         }
 
