@@ -14,14 +14,19 @@ import android.widget.Button;
 public class SplashActivity extends AppCompatActivity {
 
     /**
-     * Constante de la request del permiso de camara
+     * Constante de la request de permisos
      */
-    private static final int REQUEST_CAMERA = 1;
+    private static final int REQUEST_PERMISSION = 1;
 
     /**
      * Flag que controla si el permiso de la camara se ha habilitado
      */
     private boolean cameraPermission = false;
+
+    /**
+     * Flag que controla si el permiso de lectura y escritura se ha habilitado
+     */
+    private boolean readWritePermission = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +49,7 @@ public class SplashActivity extends AppCompatActivity {
         btnContinueMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (cameraPermission) {
+                if (cameraPermission && readWritePermission) {
                     Intent activityIntent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(activityIntent);
                     finish();
@@ -61,9 +66,11 @@ public class SplashActivity extends AppCompatActivity {
      * Comprueba si estan los permisos necesarios concedidos. En caso contrario los pide al usuario
      */
     private void checkPermissions() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA);
+        if ((ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_PERMISSION);
         } else {
+            readWritePermission = true;
             cameraPermission = true;
         }
 
@@ -72,12 +79,15 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
         switch (requestCode) {
-            case REQUEST_CAMERA: {
+            case REQUEST_PERMISSION: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     cameraPermission = true;
+                    readWritePermission = true;
+
 
                 } else {
+                    readWritePermission = true;
                     cameraPermission = false;
                 }
                 return;

@@ -15,7 +15,15 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.googlecode.tesseract.android.TessBaseAPI;
+
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements Camera.PreviewCallback, AsyncProcessCode.ProcessCodeCallback, Camera.AutoFocusCallback {
@@ -69,6 +77,11 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
      */
     private boolean processingFrameLock;
 
+    /**
+     * API de tesseract
+     */
+    private TessBaseAPI tessTwoBaseApi;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +95,8 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
         mPreview = new CameraPreview(this, mCamera);
         mCamera.setPreviewCallback(this);
         preview.addView(mPreview);
+
+        tessTwoBaseApi = initTessTwo();
     }
 
     /**
@@ -144,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
             bmpCroppedFrame = Bitmap.createBitmap(bmpFrame, cropMarginWidth, cropMarginHeight, cropAreaWidth, cropAreaHeight);
             Bitmap bmp = bmpCroppedFrame;
             binarizedBitmap = BitmapUtils.binarizeBitmap(bmp);
-            new AsyncProcessCode(this, this).execute(binarizedBitmap);
+            new AsyncProcessCode(this, this, tessTwoBaseApi).execute(binarizedBitmap);
 
         }
 
@@ -204,6 +219,84 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
         }
     }
 
+    /**
+     * Inicializa tesseract
+     */
+    private TessBaseAPI initTessTwo() {
+        String datapath = getFilesDir() + "/tesseract/";
+        String language = "eng";
+
+        /*
+         * Se copian los recursos de tesseract al dispositivo
+         */
+        copyTesseractFiles(new File(datapath + "tessdata/"), datapath);
+
+        TessBaseAPI mTess = new TessBaseAPI();
+        mTess.init(datapath, language);
+
+        return mTess;
+
+    }
+
+    /**
+     * Obtiene de la carpeta de assets el fichero eng.traineddata y lo copia en el móvil para
+     * que tesseract pueda usarlo
+     */
+    private boolean copyTesseractFiles(File directory, String dataPath) {
+         /*
+         * El path del fichero completo
+         */
+        String filepath = dataPath + "/tessdata/eng.traineddata";
+
+        /*
+         * Comprueba que el directorio exista
+         */
+        if ((!directory.exists() && directory.mkdirs()) || directory.exists()) {
+            File datafile = new File(filepath);
+            /*
+             * Comprueba que el fichero no exista ya previamente para no volver a crearlo
+             */
+            if (!datafile.exists()) {
+                try {
+
+                    /*
+                     * Se obtiene el asset eng.traineddata y se prepara para escribirlo en el directorio
+                     */
+                    InputStream isData = getAssets().open("tessdata/eng.traineddata");
+                    OutputStream osData = new FileOutputStream(filepath);
+
+                    /*
+                     * Se escribe el fichero
+                     */
+                    byte[] buffer = new byte[1024];
+                    int read;
+                    while ((read = isData.read(buffer)) != -1) {
+                        osData.write(buffer, 0, read);
+                    }
+                    osData.flush();
+                    osData.close();
+                    isData.close();
+                    return true;
+
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    return false;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return false;
+                }
+            }
+            /*
+             * Si el fichero ya existía, no se vuelve a crear
+             */
+            else {
+                return true;
+            }
+        } else {
+            return false;
+        }
+
+    }
 
     @Override
     public void onProcessingFrame(ProcessStatus procStatus) {
