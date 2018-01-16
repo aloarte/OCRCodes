@@ -5,4 +5,5 @@
     <string name="title_activity_splash">SplashActivity</string>
     <string name="title_activity_main">Main</string>
     <string name="capture_rect">Rectangulo de captura</string>
+    <string name="title_activity_result">ResultActivity</string>
 </resources>

@@ -71,10 +71,10 @@ public class AsyncProcessCode extends AsyncTask<Bitmap, String, String> {
         if (mTess != null) {
             mTess.setImage(bmpFrame);
 //        //Para que use el diccionario
-//        mTess.setVariable("load_system_dawg","0"	);
-//        mTess.setVariable("VAR_CHAR_BLACKLIST","0000-0000-0000-0000");
-//        mTess.setVariable("VAR_CHAR_WHITELIST","0000-0000-0000-0000");
-
+            //mTess.setVariable("load_system_dawg","0"	);
+            mTess.setVariable(TessBaseAPI.VAR_CHAR_BLACKLIST, "abcdefghijklmnñopqrstuvwxyz<>',._áéíóú\\ªº¡?¿`+´Ç¨ç^*[]{}/&%$·|@#~€");
+            mTess.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST, "0123456789ABCDEFGHIJKLMNÑOPQRSTUVWXYZ-");
+            mTess.setPageSegMode(TessBaseAPI.PageSegMode.PSM_SINGLE_LINE);
 
 //        mTess.setDebug(true);
 //        mTess.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST, "ABCDEFGHIJKLMNOPQRSTUVXWYZ1234567890");
