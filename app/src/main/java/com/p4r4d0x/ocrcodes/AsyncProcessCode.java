@@ -1,7 +1,5 @@
 package com.p4r4d0x.ocrcodes;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 
@@ -19,11 +17,6 @@ public class AsyncProcessCode extends AsyncTask<Bitmap, String, String> {
      */
     private ProcessCodeCallback procCallback;
     /**
-     * Contexto de ejecucución de la actividad
-     */
-    @SuppressLint("StaticFieldLeak")
-    private Context appContext;
-    /**
      * Estado alcanzado del procesamiento
      */
     private ProcessStatus procStatus = ProcessStatus.Invalid;
@@ -32,9 +25,8 @@ public class AsyncProcessCode extends AsyncTask<Bitmap, String, String> {
      */
     private TessBaseAPI mTess;
 
-    public AsyncProcessCode(ProcessCodeCallback callback, Context ctx, TessBaseAPI mTess) {
+    public AsyncProcessCode(ProcessCodeCallback callback, TessBaseAPI mTess) {
         this.procCallback = callback;
-        this.appContext = ctx;
         this.mTess = mTess;
     }
 
@@ -110,13 +102,13 @@ public class AsyncProcessCode extends AsyncTask<Bitmap, String, String> {
          *
          * @param procStatus Estado del procesamiento
          */
-        public void onProcessingFrame(ProcessStatus procStatus);
+        void onProcessingFrame(ProcessStatus procStatus);
 
         /**
          * Comunica la lectura exitosa de un código
          *
          * @param procCode Código leido
          */
-        public void onFinishProcessingFrame(String procCode);
+        void onFinishProcessingFrame(String procCode);
     }
 }

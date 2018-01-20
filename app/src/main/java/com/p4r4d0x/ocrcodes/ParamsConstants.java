@@ -12,13 +12,12 @@ import java.util.Properties;
  * Created by aloarte on 16/01/2018.
  */
 
-public class ParamsConstants {
+class ParamsConstants {
 
     private static final String PARAMS_RESOURCE = "TargetCodesParams.properties";
 
-    public static String getProperty(String key, Context context) throws IOException {
+    protected static String getProperty(String key, Context context) throws IOException {
         Properties properties = new Properties();
-
         AssetManager assetManager = context.getAssets();
         InputStream inputStream = assetManager.open(PARAMS_RESOURCE);
         properties.load(inputStream);

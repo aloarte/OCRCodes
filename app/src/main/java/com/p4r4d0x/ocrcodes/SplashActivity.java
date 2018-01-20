@@ -49,7 +49,7 @@ public class SplashActivity extends AppCompatActivity {
      * Inicia las vistas de la actividad
      */
     private void initViews() {
-        Button btnContinueMain = (Button) findViewById(R.id.btn_continue_main);
+        Button btnContinueMain = findViewById(R.id.btn_continue_main);
         btnContinueMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,7 +94,6 @@ public class SplashActivity extends AppCompatActivity {
                     readWritePermission = true;
                     cameraPermission = false;
                 }
-                return;
             }
         }
     }

@@ -1,6 +1,8 @@
 package com.p4r4d0x.ocrcodes;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
@@ -78,52 +80,37 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
      */
     private static Camera mCamera;
     /**
-     * Vista de la Preview de la cámara
-     */
-    private static FrameLayout preview;
-    /**
-     * Preview de la cámara
-     */
-    private static CameraPreview cameraPreview;
-    /**
      * Bitmap con la imagen a procesar
      */
     Bitmap image;
-    /**
+    /*
      * Layout que contiene la vista de la preview de la cámara y sus elementos
      */
     RelativeLayout rlPreview;
     /**
+     * Vista de la Preview de la cámara
+     */
+    private FrameLayout preview;
+    /**
      * TextView en el que poner el resultado
      */
     private TextView tvResukltOCR;
+
     /**
      * TextView en el que poner la descripción del resultado
      */
     private TextView tvItemObtainedDescription;
+
     /**
      * ImageView con la imagen de un resultado válido
      */
     private ImageView ivItemObtainedSrc;
-    /**
-     * Icono que activa o desactiva el flash
-     */
-    private ImageView ivSwapFlash;
-
-    /**
-     * Icono que realiza un enfocado de la pantalla
-     */
-    private ImageView ivFocusScreen;
 
     /**
      * Array de iconos para mostrar los elementos obtenidos o no obtenidos aun
      */
     private ImageView[] ivItemsObtained = new ImageView[6];
 
-    /**
-     * Botón para el reseteo de la preview tras encontrar algun código
-     */
-    private Button btnResetPreview;
     /**
      * Layout que contiene la vista del resultado de un código
      */
@@ -138,6 +125,12 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
      */
     private TessBaseAPI tessTwoBaseApi;
 
+    /**
+     * SharedPreferences para almacenar y leer si un item ha sido leído por si la app se cierra.
+     */
+    private SharedPreferences sharedPref;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -145,8 +138,8 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
         initViews();
-        //checkItemValues();
-
+        sharedPref = getPreferences(Context.MODE_PRIVATE);
+        checkItemValues();
         tessTwoBaseApi = initTessTwo();
     }
 
@@ -159,7 +152,10 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
          * Crea la instancia de la cámara, la preview y las vincula
          */
         mCamera = getCameraInstance(true, Camera.Parameters.FLASH_MODE_OFF);
-        cameraPreview = new CameraPreview(this, mCamera, this);
+        /*
+      Preview de la cámara
+     */
+        CameraPreview cameraPreview = new CameraPreview(this, mCamera, this);
         preview.addView(cameraPreview);
 
     }
@@ -216,7 +212,7 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
             bmpCroppedFrame = Bitmap.createBitmap(bmpFrame, cropMarginWidth, cropMarginHeight, cropAreaWidth, cropAreaHeight);
             Bitmap bmp = bmpCroppedFrame;
             binarizedBitmap = BitmapUtils.binarizeBitmap(bmp);
-            new AsyncProcessCode(this, this, tessTwoBaseApi).execute(binarizedBitmap);
+            new AsyncProcessCode(this, tessTwoBaseApi).execute(binarizedBitmap);
 
         }
 
@@ -243,11 +239,7 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
         Log.d("ALRALR", "onFinishProcessingFrame");
 
         try {
-            if (searchForACodeMatch(procCode)) {
-                processingFrameLock = true;
-            } else {
-                processingFrameLock = false;
-            }
+            processingFrameLock = searchForACodeMatch(procCode);
         } catch (IOException e) {
             processingFrameLock = false;
             e.printStackTrace();
@@ -275,8 +267,14 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
         rlPreview = findViewById(R.id.ll_capture_code);
         ivItemObtainedSrc = findViewById(R.id.iv_item_obtained);
 
-        ivSwapFlash = findViewById(R.id.ivFlashBtn);
-        ivFocusScreen = findViewById(R.id.ivFocusBtn);
+        /*
+      Icono que activa o desactiva el flash
+     */
+        ImageView ivSwapFlash = findViewById(R.id.ivFlashBtn);
+        /*
+      Icono que realiza un enfocado de la pantalla
+     */
+        ImageView ivFocusScreen = findViewById(R.id.ivFocusBtn);
         ivItemsObtained[0] = findViewById(R.id.ivItem1);
         ivItemsObtained[1] = findViewById(R.id.ivItem2);
         ivItemsObtained[2] = findViewById(R.id.ivItem3);
@@ -284,7 +282,10 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
         ivItemsObtained[4] = findViewById(R.id.ivItem5);
         ivItemsObtained[5] = findViewById(R.id.ivItem6);
 
-        btnResetPreview = findViewById(R.id.btn_reload_preview);
+        /*
+      Botón para el reseteo de la preview tras encontrar algun código
+     */
+        Button btnResetPreview = findViewById(R.id.btn_reload_preview);
         btnResetPreview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -325,9 +326,13 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
      * cambia su icono de forma inicial
      */
     private void checkItemValues() {
-        for (int i = 0; i < ivItemsObtained.length; i++) {
-            changeItemIconStatus(i, true);
-        }
+        changeItemIconStatus(ITEM_1, sharedPref.getBoolean(getString(R.string.savedPreferenceItem1), false));
+        changeItemIconStatus(ITEM_2, sharedPref.getBoolean(getString(R.string.savedPreferenceItem2), false));
+        changeItemIconStatus(ITEM_3, sharedPref.getBoolean(getString(R.string.savedPreferenceItem3), false));
+        changeItemIconStatus(ITEM_4, sharedPref.getBoolean(getString(R.string.savedPreferenceItem4), false));
+        changeItemIconStatus(ITEM_5, sharedPref.getBoolean(getString(R.string.savedPreferenceItem5), false));
+        changeItemIconStatus(ITEM_6, sharedPref.getBoolean(getString(R.string.savedPreferenceItem6), false));
+
     }
 
     /**
@@ -432,6 +437,7 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
             mCamera.setPreviewCallback(this);
             mCamera.startPreview();
         } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
@@ -476,12 +482,16 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
         /*
          * Se copian los recursos de tesseract al dispositivo
          */
-        copyTesseractFiles(new File(datapath + "tessdata/"), datapath);
+        if (copyTesseractFiles(new File(datapath + "tessdata/"), datapath)) {
+            TessBaseAPI mTess = new TessBaseAPI();
+            mTess.init(datapath, language);
+            return mTess;
+        } else {
+            return null;
+        }
 
-        TessBaseAPI mTess = new TessBaseAPI();
-        mTess.init(datapath, language);
 
-        return mTess;
+
 
     }
 
@@ -549,39 +559,48 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
      * Busca si el código reconocido por tesseract concuerda con alguno de los codigos objetivo
      *
      * @param procCode Código reconocído por OCR
-     * @return
+     * @return True si el string coincidió con el de referencia.
      */
     private boolean searchForACodeMatch(String procCode) throws IOException {
+
         /*
          * Comprueba que el string no esté vacío o nulo
          */
         if (procCode != null && !procCode.equals("")) {
             String improvedCode = improveRecognizedCode(procCode);
-            boolean obtained = false;
+            SharedPreferences.Editor editor = sharedPref.edit();
+
+            boolean obtained;
 
             if (compareCodes(ParamsConstants.getProperty("codeCard1", this), improvedCode, MAX_DIFFERENCE_CHARACTERS_PER_CHUNK, MAX_DIFFERENCE_CHUNKS)) {
                 obtained = true;
                 llResultItem.setVisibility(View.VISIBLE);
                 rlPreview.setVisibility(View.GONE);
-                tvItemObtainedDescription.setText("Este es un texto largo y muy descriptivo para poder encontrar el regalo 1.");
+                tvItemObtainedDescription.setText(getResources().getString(R.string.descr_item1));
                 ivItemObtainedSrc.setBackground(getResources().getDrawable(R.drawable.cartera));
                 changeItemIconStatus(ITEM_1, true);
+                editor.putBoolean(getString(R.string.savedPreferenceItem1), true);
+                editor.apply();
 
             } else if (compareCodes(ParamsConstants.getProperty("codeCard2", this), improvedCode, MAX_DIFFERENCE_CHARACTERS_PER_CHUNK, MAX_DIFFERENCE_CHUNKS)) {
                 obtained = true;
                 llResultItem.setVisibility(View.VISIBLE);
                 rlPreview.setVisibility(View.GONE);
-                tvItemObtainedDescription.setText("Este es un texto largo y muy descriptivo para poder encontrar el regalo 2");
+                tvItemObtainedDescription.setText(getResources().getString(R.string.descr_item2));
                 ivItemObtainedSrc.setBackground(getResources().getDrawable(R.drawable.cartera));
                 changeItemIconStatus(ITEM_2, true);
+                editor.putBoolean(getString(R.string.savedPreferenceItem2), true);
+                editor.apply();
 
             } else if (compareCodes(ParamsConstants.getProperty("codeGame1", this), improvedCode, MAX_DIFFERENCE_CHARACTERS_PER_CHUNK, MAX_DIFFERENCE_CHUNKS)) {
                 obtained = true;
                 llResultItem.setVisibility(View.VISIBLE);
                 rlPreview.setVisibility(View.GONE);
-                tvItemObtainedDescription.setText("Este es un texto largo y muy descriptivo para poder encontrar el regalo 3");
+                tvItemObtainedDescription.setText(getResources().getString(R.string.descr_item3));
                 ivItemObtainedSrc.setBackground(getResources().getDrawable(R.drawable.cartera));
                 changeItemIconStatus(ITEM_3, true);
+                editor.putBoolean(getString(R.string.savedPreferenceItem3), true);
+                editor.apply();
 
             } else {
                 obtained = false;

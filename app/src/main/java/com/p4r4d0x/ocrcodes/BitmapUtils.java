@@ -12,10 +12,12 @@ import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 
 /**
+ * La clase sirve como utils para manejar los bitmaps.
+ * Lógica extraída de stackoverflow
  * Created by aloarte on 11/01/2018.
  */
 
-public class BitmapUtils {
+class BitmapUtils {
 
     /**
      * Boolean that tells me how to treat a transparent pixel (Should it be black?)
@@ -68,7 +70,7 @@ public class BitmapUtils {
     }
 
 
-    public static Bitmap convertToMutable(Bitmap imgIn) {
+    private static Bitmap convertToMutable(Bitmap imgIn) {
         try {
             //this is the file going to use temporally to save the bytes.
             // This file will not be a image, it will store the raw image data.

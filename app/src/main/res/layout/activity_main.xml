@@ -36,21 +36,20 @@
                 android:id="@+id/ll_top_margin_area"
                 android:layout_width="match_parent"
                 android:layout_height="0sp"
-                android:layout_centerHorizontal="false"
-                android:layout_centerVertical="false"
                 android:layout_weight="0.15"
                 android:background="@color/app_color"
+                android:baselineAligned="false"
                 android:orientation="horizontal">
 
                 <LinearLayout
                     android:id="@+id/ll_rewards_obtained"
                     android:layout_width="0sp"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="20sp"
                     android:layout_marginStart="20sp"
                     android:layout_weight="0.7"
                     android:gravity="center"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    tools:ignore="NestedWeights">
 
                     <ImageView
                         android:id="@+id/ivItem1"
@@ -60,7 +59,8 @@
                         android:layout_marginLeft="10sp"
                         android:layout_marginRight="10sp"
                         android:layout_marginStart="10sp"
-                        android:background="@drawable/ic_item_1_black" />
+                        android:background="@drawable/ic_item_1_black"
+                        android:contentDescription="@string/imagedescription" />
 
                     <ImageView
                         android:id="@+id/ivItem2"
@@ -70,7 +70,8 @@
                         android:layout_marginLeft="10sp"
                         android:layout_marginRight="10sp"
                         android:layout_marginStart="10sp"
-                        android:background="@drawable/ic_item_2_black" />
+                        android:background="@drawable/ic_item_2_black"
+                        android:contentDescription="@string/imagedescription" />
 
                     <ImageView
                         android:id="@+id/ivItem3"
@@ -80,7 +81,8 @@
                         android:layout_marginLeft="10sp"
                         android:layout_marginRight="10sp"
                         android:layout_marginStart="10sp"
-                        android:background="@drawable/ic_item_3_black" />
+                        android:background="@drawable/ic_item_3_black"
+                        android:contentDescription="@string/imagedescription" />
 
                     <ImageView
                         android:id="@+id/ivItem4"
@@ -90,7 +92,8 @@
                         android:layout_marginLeft="10sp"
                         android:layout_marginRight="10sp"
                         android:layout_marginStart="10sp"
-                        android:background="@drawable/ic_item_4_black" />
+                        android:background="@drawable/ic_item_4_black"
+                        android:contentDescription="@string/imagedescription" />
 
                     <ImageView
                         android:id="@+id/ivItem5"
@@ -100,7 +103,8 @@
                         android:layout_marginLeft="10sp"
                         android:layout_marginRight="10sp"
                         android:layout_marginStart="10sp"
-                        android:background="@drawable/ic_item_5_black" />
+                        android:background="@drawable/ic_item_5_black"
+                        android:contentDescription="@string/imagedescription" />
 
                     <ImageView
                         android:id="@+id/ivItem6"
@@ -110,7 +114,8 @@
                         android:layout_marginLeft="10sp"
                         android:layout_marginRight="10sp"
                         android:layout_marginStart="10sp"
-                        android:background="@drawable/ic_item_6_black" />
+                        android:background="@drawable/ic_item_6_black"
+                        android:contentDescription="@string/imagedescription" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -118,7 +123,6 @@
                     android:layout_width="0sp"
                     android:layout_height="match_parent"
                     android:layout_marginEnd="20sp"
-                    android:layout_marginRight="20sp"
                     android:layout_weight="0.3"
                     android:gravity="center"
                     android:orientation="horizontal">
@@ -127,25 +131,23 @@
                         android:id="@+id/ivFocusBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignParentRight="true"
                         android:layout_marginEnd="10sp"
                         android:layout_marginLeft="10sp"
                         android:layout_marginRight="10sp"
                         android:layout_marginStart="10sp"
-                        android:background="@drawable/ic_camera_focus" />
+                        android:background="@drawable/ic_camera_focus"
+                        android:contentDescription="@string/imagedescription" />
 
                     <ImageView
                         android:id="@+id/ivFlashBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignParentRight="true"
                         android:layout_marginEnd="10sp"
                         android:layout_marginLeft="10sp"
                         android:layout_marginRight="10sp"
                         android:layout_marginStart="10sp"
-                        android:background="@drawable/ic_flash_on" />
+                        android:background="@drawable/ic_flash_on"
+                        android:contentDescription="@string/imagedescription" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -154,6 +156,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0sp"
                 android:layout_weight="0.70"
+                android:baselineAligned="false"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -162,7 +165,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.02"
                     android:background="@color/app_color"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    tools:ignore="NestedWeights">
 
                 </LinearLayout>
 
@@ -171,7 +175,7 @@
                     android:layout_width="0sp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.96"
-                    android:orientation="vertical"></LinearLayout>
+                    android:orientation="vertical" />
 
                 <LinearLayout
                     android:id="@+id/ll_right_margin_area"
@@ -278,8 +282,6 @@
             android:id="@+id/ll_top_margin_area_reward"
             android:layout_width="match_parent"
             android:layout_height="0sp"
-            android:layout_centerHorizontal="false"
-            android:layout_centerVertical="false"
             android:layout_weight="0.15"
             android:background="@color/app_color"
             android:orientation="horizontal">
@@ -291,6 +293,7 @@
             android:layout_width="match_parent"
             android:layout_height="0sp"
             android:layout_weight="0.70"
+            android:baselineAligned="false"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -299,7 +302,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.1"
                 android:background="@color/app_color"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                tools:ignore="NestedWeights">
 
             </LinearLayout>
 
@@ -308,6 +312,7 @@
                 android:layout_width="0sp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.8"
+                android:baselineAligned="false"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -323,6 +328,7 @@
                         android:id="@+id/iv_item_obtained"
                         android:layout_width="200sp"
                         android:layout_height="150sp"
+                        android:contentDescription="@string/imagedescription"
                         android:src="@drawable/rectangle" />
                 </LinearLayout>
 
@@ -368,7 +374,7 @@
                 android:id="@+id/btn_reload_preview"
                 android:layout_width="200sp"
                 android:layout_height="wrap_content"
-                android:text="Captura otro código" />
+                android:text="@string/capture_another_code" />
 
         </LinearLayout>
 

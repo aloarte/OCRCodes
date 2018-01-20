@@ -48,6 +48,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="0.3"
+                android:baselineAligned="false"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:padding="15sp">
@@ -66,12 +67,14 @@
                         android:id="@+id/iv_capture_instruction_1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:contentDescription="@string/imagedescription"
                         app:srcCompat="@drawable/ic_crop_rectangle_lines" />
 
                     <ImageView
                         android:id="@+id/iv_capture_instruction_2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:contentDescription="@string/imagedescription"
                         app:srcCompat="@drawable/ic_shape_text" />
                 </LinearLayout>
 
@@ -109,6 +112,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0sp"
                 android:layout_weight="0.3"
+                android:baselineAligned="false"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:padding="15sp">
@@ -120,18 +124,21 @@
                     android:layout_weight="0.2"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:padding="10sp">
+                    android:padding="10sp"
+                    tools:ignore="NestedWeights">
 
                     <ImageView
                         android:id="@+id/iv_camera_instruction_1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:contentDescription="@string/imagedescription"
                         app:srcCompat="@drawable/ic_camera_focus" />
 
                     <ImageView
                         android:id="@+id/iv_camera_instruction_2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:contentDescription="@string/imagedescription"
                         app:srcCompat="@drawable/ic_flash_on" />
                 </LinearLayout>
 
@@ -168,6 +175,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="0.3"
+                android:baselineAligned="false"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:padding="15sp">
@@ -179,18 +187,21 @@
                     android:layout_weight="0.2"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:padding="10sp">
+                    android:padding="10sp"
+                    tools:ignore="NestedWeights">
 
                     <ImageView
                         android:id="@+id/iv_reward_instruction_1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:contentDescription="@string/imagedescription"
                         app:srcCompat="@drawable/ic_item_1_black" />
 
                     <ImageView
                         android:id="@+id/iv_reward_instruction_2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:contentDescription="@string/imagedescription"
                         app:srcCompat="@drawable/ic_item_1_white" />
                 </LinearLayout>
 
@@ -225,7 +236,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="0.1"
-                android:orientation="vertical" />
+                android:orientation="vertical"
+                tools:ignore="UselessLeaf" />
 
         </LinearLayout>
     </LinearLayout>
@@ -242,7 +254,7 @@
             android:id="@+id/btn_continue_main"
             android:layout_width="200sp"
             android:layout_height="wrap_content"
-            android:text="Continua" />
+            android:text="@string/continue_to_main" />
     </LinearLayout>
 
 </LinearLayout>

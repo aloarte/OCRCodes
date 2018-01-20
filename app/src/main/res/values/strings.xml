@@ -13,4 +13,20 @@
     <string name="camera_instruction_descr_2">Si hay poca luminosidad, activa el flash.</string>
     <string name="reward_instruction_descr_1">Tienes seis elementos a descubrir. Podrás ver el progreso en la barra superior de la pantalla.</string>
     <string name="reward_instruction_descr_2">Cada vez que descubras uno, aparecerá resaltado.</string>
+    <string name="imagedescription">imageDescription</string>
+    <string name="capture_another_code">Captura otro código</string>
+    <string name="continue_to_main">Continuar</string>
+    <string name="descr_item1">Este es un texto largo y muy descriptivo para poder encontrar el regalo 1.</string>
+    <string name="descr_item2">Este es un texto largo y muy descriptivo para poder encontrar el regalo 2.</string>
+    <string name="descr_item3">Este es un texto largo y muy descriptivo para poder encontrar el regalo 3.</string>
+    <string name="descr_item4">Este es un texto largo y muy descriptivo para poder encontrar el regalo 4.</string>
+    <string name="descr_item5">Este es un texto largo y muy descriptivo para poder encontrar el regalo 5.</string>
+    <string name="descr_item6">Este es un texto largo y muy descriptivo para poder encontrar el regalo 6.</string>
+    <string name="savedPreferenceItem1">spSavedItem1</string>
+    <string name="savedPreferenceItem2">spSavedItem2</string>
+    <string name="savedPreferenceItem3">spSavedItem3</string>
+    <string name="savedPreferenceItem4">spSavedItem4</string>
+    <string name="savedPreferenceItem5">spSavedItem5</string>
+    <string name="savedPreferenceItem6">spSavedItem6</string>
+
 </resources>
