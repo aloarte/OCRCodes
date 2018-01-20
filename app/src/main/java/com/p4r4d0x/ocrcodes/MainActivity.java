@@ -10,8 +10,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -64,6 +65,14 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
      * Límite máximo de caracteres que pueden ser diferentes en un chunk al comparar dos códigos
      */
     private static final int MAX_DIFFERENCE_CHARACTERS_PER_CHUNK = 1;
+
+    private static final int ITEM_1 = 1;
+    private static final int ITEM_2 = 2;
+    private static final int ITEM_3 = 3;
+    private static final int ITEM_4 = 4;
+    private static final int ITEM_5 = 5;
+    private static final int ITEM_6 = 6;
+
     /**
      * Objeto cámara
      */
@@ -100,6 +109,17 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
      * Icono que activa o desactiva el flash
      */
     private ImageView ivSwapFlash;
+
+    /**
+     * Icono que realiza un enfocado de la pantalla
+     */
+    private ImageView ivFocusScreen;
+
+    /**
+     * Array de iconos para mostrar los elementos obtenidos o no obtenidos aun
+     */
+    private ImageView[] ivItemsObtained = new ImageView[6];
+
     /**
      * Botón para el reseteo de la preview tras encontrar algun código
      */
@@ -121,25 +141,26 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
         initViews();
-
+        //checkItemValues();
 
         tessTwoBaseApi = initTessTwo();
     }
+
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        /**
+        /*
          * Crea la instancia de la cámara, la preview y las vincula
          */
         mCamera = getCameraInstance(true, Camera.Parameters.FLASH_MODE_OFF);
-
         cameraPreview = new CameraPreview(this, mCamera, this);
         preview.addView(cameraPreview);
-        //swapFlash();
 
     }
 
@@ -249,10 +270,19 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
         image = BitmapFactory.decodeResource(getResources(), R.drawable.test_image);
 
         tvItemObtainedDescription = findViewById(R.id.tv_achieved_element);
-        ivItemObtainedSrc = findViewById(R.id.iv_item_obtained);
 
         llResultItem = findViewById(R.id.ll_reward);
         rlPreview = findViewById(R.id.ll_capture_code);
+        ivItemObtainedSrc = findViewById(R.id.iv_item_obtained);
+
+        ivSwapFlash = findViewById(R.id.ivFlashBtn);
+        ivFocusScreen = findViewById(R.id.ivFocusBtn);
+        ivItemsObtained[0] = findViewById(R.id.ivItem1);
+        ivItemsObtained[1] = findViewById(R.id.ivItem2);
+        ivItemsObtained[2] = findViewById(R.id.ivItem3);
+        ivItemsObtained[3] = findViewById(R.id.ivItem4);
+        ivItemsObtained[4] = findViewById(R.id.ivItem5);
+        ivItemsObtained[5] = findViewById(R.id.ivItem6);
 
         btnResetPreview = findViewById(R.id.btn_reload_preview);
         btnResetPreview.setOnClickListener(new View.OnClickListener() {
@@ -269,25 +299,83 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
             }
         });
 
-        ivSwapFlash = (ImageView) findViewById(R.id.ivFlashBtn);
+        /*
+         * Cuando se pulse sobre el icono, activa el flash
+         */
         ivSwapFlash.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 swapFlash(view);
             }
         });
+
         /*
-         * Cuando se toca sobre la superficie de la pantalla se hace autofocus
+         * Cuando se pulsa sobre el botón, hace un enfoque de la pantalla
          */
-        preview.setClickable(true);
-        preview.setOnTouchListener(new View.OnTouchListener() {
+        ivFocusScreen.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
+            public void onClick(View view) {
                 focusCamera();
-                return true;
             }
         });
+    }
 
+    /**
+     * Realiza un chequeo buscando si cada item se ha obtenido o no y
+     * cambia su icono de forma inicial
+     */
+    private void checkItemValues() {
+        for (int i = 0; i < ivItemsObtained.length; i++) {
+            changeItemIconStatus(i, true);
+        }
+    }
+
+    /**
+     * Cambia el icono del item seleccionado en función del valor booleano
+     *
+     * @param itemIndex Índice del item a evaluar
+     * @param obtained  Condición que evalua si esta obtenido o no
+     */
+    public void changeItemIconStatus(int itemIndex, boolean obtained) {
+        switch (itemIndex) {
+            case ITEM_1:
+                if (obtained)
+                    ivItemsObtained[0].setBackground(getResources().getDrawable(R.drawable.ic_item_1_white));
+                else
+                    ivItemsObtained[0].setBackground(getResources().getDrawable(R.drawable.ic_item_1_black));
+                break;
+            case ITEM_2:
+                if (obtained)
+                    ivItemsObtained[1].setBackground(getResources().getDrawable(R.drawable.ic_item_2_white));
+                else
+                    ivItemsObtained[1].setBackground(getResources().getDrawable(R.drawable.ic_item_2_black));
+                break;
+            case ITEM_3:
+                if (obtained)
+                    ivItemsObtained[2].setBackground(getResources().getDrawable(R.drawable.ic_item_3_white));
+                else
+                    ivItemsObtained[2].setBackground(getResources().getDrawable(R.drawable.ic_item_3_black));
+                break;
+            case ITEM_4:
+                if (obtained)
+                    ivItemsObtained[3].setBackground(getResources().getDrawable(R.drawable.ic_item_4_white));
+                else
+                    ivItemsObtained[3].setBackground(getResources().getDrawable(R.drawable.ic_item_5_black));
+                break;
+            case ITEM_5:
+                if (obtained)
+                    ivItemsObtained[4].setBackground(getResources().getDrawable(R.drawable.ic_item_5_white));
+                else
+                    ivItemsObtained[4].setBackground(getResources().getDrawable(R.drawable.ic_item_5_black));
+                break;
+            case ITEM_6:
+                if (obtained)
+                    ivItemsObtained[5].setBackground(getResources().getDrawable(R.drawable.ic_item_6_white));
+                else
+                    ivItemsObtained[5].setBackground(getResources().getDrawable(R.drawable.ic_item_6_black));
+                break;
+        }
+        rlPreview.invalidate();
     }
 
     /**
@@ -475,21 +563,25 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
                 obtained = true;
                 llResultItem.setVisibility(View.VISIBLE);
                 rlPreview.setVisibility(View.GONE);
-                tvItemObtainedDescription.setText("Regalo 1");
+                tvItemObtainedDescription.setText("Este es un texto largo y muy descriptivo para poder encontrar el regalo 1.");
                 ivItemObtainedSrc.setBackground(getResources().getDrawable(R.drawable.cartera));
+                changeItemIconStatus(ITEM_1, true);
 
             } else if (compareCodes(ParamsConstants.getProperty("codeCard2", this), improvedCode, MAX_DIFFERENCE_CHARACTERS_PER_CHUNK, MAX_DIFFERENCE_CHUNKS)) {
                 obtained = true;
                 llResultItem.setVisibility(View.VISIBLE);
                 rlPreview.setVisibility(View.GONE);
-                tvItemObtainedDescription.setText("Regalo 2");
+                tvItemObtainedDescription.setText("Este es un texto largo y muy descriptivo para poder encontrar el regalo 2");
                 ivItemObtainedSrc.setBackground(getResources().getDrawable(R.drawable.cartera));
+                changeItemIconStatus(ITEM_2, true);
+
             } else if (compareCodes(ParamsConstants.getProperty("codeGame1", this), improvedCode, MAX_DIFFERENCE_CHARACTERS_PER_CHUNK, MAX_DIFFERENCE_CHUNKS)) {
                 obtained = true;
                 llResultItem.setVisibility(View.VISIBLE);
                 rlPreview.setVisibility(View.GONE);
-                tvItemObtainedDescription.setText("Regalo 3");
+                tvItemObtainedDescription.setText("Este es un texto largo y muy descriptivo para poder encontrar el regalo 3");
                 ivItemObtainedSrc.setBackground(getResources().getDrawable(R.drawable.cartera));
+                changeItemIconStatus(ITEM_3, true);
 
             } else {
                 obtained = false;

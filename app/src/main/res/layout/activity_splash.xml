@@ -1,15 +1,248 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/app_color"
     android:orientation="vertical"
     tools:context="com.p4r4d0x.ocrcodes.SplashActivity">
 
 
-    <Button
-        android:id="@+id/btn_continue_main"
+    <LinearLayout
+        android:id="@+id/ll_body_info"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Continua" />
+        android:layout_height="0sp"
+        android:layout_weight="0.9"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/ll_title"
+            android:layout_width="match_parent"
+            android:layout_height="0sp"
+            android:layout_weight="0.2"
+            android:gravity="center"
+            android:orientation="vertical"
+            tools:ignore="NestedWeights">
+
+            <TextView
+                android:id="@+id/tv_title_instructions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/instructions_label"
+                android:textAllCaps="true"
+                android:textColor="@color/text_black"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_instructions"
+            android:layout_width="match_parent"
+            android:layout_height="0sp"
+            android:layout_weight="0.8"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/ll_capture_instruction"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.3"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="15sp">
+
+                <LinearLayout
+                    android:id="@+id/ll_capture_instruction_icons"
+                    android:layout_width="0sp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.2"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="10sp"
+                    tools:ignore="NestedWeights">
+
+                    <ImageView
+                        android:id="@+id/iv_capture_instruction_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_crop_rectangle_lines" />
+
+                    <ImageView
+                        android:id="@+id/iv_capture_instruction_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_shape_text" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_capture_instruction_descriptions"
+                    android:layout_width="0sp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.8"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingEnd="10sp"
+                    android:paddingLeft="10sp"
+                    android:paddingRight="10sp"
+                    android:paddingStart="10sp">
+
+                    <TextView
+                        android:id="@+id/tv_capture_instruction_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/capture_instruction_descr_1"
+                        android:textColor="@color/text_black" />
+
+                    <TextView
+                        android:id="@+id/tv_capture_instruction_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/capture_instruction_descr_2"
+                        android:textColor="@color/text_black" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_camera_instructions"
+                android:layout_width="match_parent"
+                android:layout_height="0sp"
+                android:layout_weight="0.3"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="15sp">
+
+                <LinearLayout
+                    android:id="@+id/ll_camera_instruction_icons"
+                    android:layout_width="0sp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.2"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="10sp">
+
+                    <ImageView
+                        android:id="@+id/iv_camera_instruction_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_camera_focus" />
+
+                    <ImageView
+                        android:id="@+id/iv_camera_instruction_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_flash_on" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_camera_instruction_descriptions"
+                    android:layout_width="0sp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.8"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingEnd="10sp"
+                    android:paddingLeft="10sp"
+                    android:paddingRight="10sp"
+                    android:paddingStart="10sp">
+
+                    <TextView
+                        android:id="@+id/tv_camera_instruction_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/camera_instruction_descr_1"
+                        android:textColor="@color/text_black" />
+
+                    <TextView
+                        android:id="@+id/tv_camera_instruction_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/camera_instruction_descr_2"
+                        android:textColor="@color/text_black" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_reward_instruction"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.3"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="15sp">
+
+                <LinearLayout
+                    android:id="@+id/ll_reward_instruction_icons"
+                    android:layout_width="0sp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.2"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="10sp">
+
+                    <ImageView
+                        android:id="@+id/iv_reward_instruction_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_item_1_black" />
+
+                    <ImageView
+                        android:id="@+id/iv_reward_instruction_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_item_1_white" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_reward_instruction_descriptions"
+                    android:layout_width="0sp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.8"
+                    android:orientation="vertical"
+                    android:paddingEnd="10sp"
+                    android:paddingLeft="10sp"
+                    android:paddingRight="10sp"
+                    android:paddingStart="10sp">
+
+                    <TextView
+                        android:id="@+id/tv_reward_instruction_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/reward_instruction_descr_1"
+                        android:textColor="@color/text_black" />
+
+                    <TextView
+                        android:id="@+id/tv_reward_instruction_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/reward_instruction_descr_2"
+                        android:textColor="@color/text_black" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.1"
+                android:orientation="vertical" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_continue"
+        android:layout_width="match_parent"
+        android:layout_height="0sp"
+        android:layout_weight="0.1"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_continue_main"
+            android:layout_width="200sp"
+            android:layout_height="wrap_content"
+            android:text="Continua" />
+    </LinearLayout>
+
 </LinearLayout>

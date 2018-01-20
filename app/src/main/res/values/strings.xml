@@ -6,4 +6,11 @@
     <string name="title_activity_main">Main</string>
     <string name="capture_rect">Rectangulo de captura</string>
     <string name="title_activity_result">ResultActivity</string>
+    <string name="instructions_label">Instrucciones</string>
+    <string name="capture_instruction_descr_1">Enfoca la cámara a un código para procesarlo</string>
+    <string name="capture_instruction_descr_2">Encuadra el código en el rectángulo de captura.</string>
+    <string name="camera_instruction_descr_1">La cámara enfoca automáticamente. En caso de no hacerlo, usa el botón de enfoque.</string>
+    <string name="camera_instruction_descr_2">Si hay poca luminosidad, activa el flash.</string>
+    <string name="reward_instruction_descr_1">Tienes seis elementos a descubrir. Podrás ver el progreso en la barra superior de la pantalla.</string>
+    <string name="reward_instruction_descr_2">Cada vez que descubras uno, aparecerá resaltado.</string>
 </resources>

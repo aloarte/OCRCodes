@@ -19,18 +19,201 @@
             android:id="@+id/camera_preview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
             android:clickable="true"
             android:focusable="true">
 
         </FrameLayout>
 
         <LinearLayout
+            android:id="@+id/ll_container_margins"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/ll_vertical_margin_top"
+                android:id="@+id/ll_top_margin_area"
+                android:layout_width="match_parent"
+                android:layout_height="0sp"
+                android:layout_centerHorizontal="false"
+                android:layout_centerVertical="false"
+                android:layout_weight="0.15"
+                android:background="@color/app_color"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/ll_rewards_obtained"
+                    android:layout_width="0sp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20sp"
+                    android:layout_marginStart="20sp"
+                    android:layout_weight="0.7"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/ivItem1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10sp"
+                        android:layout_marginLeft="10sp"
+                        android:layout_marginRight="10sp"
+                        android:layout_marginStart="10sp"
+                        android:background="@drawable/ic_item_1_black" />
+
+                    <ImageView
+                        android:id="@+id/ivItem2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10sp"
+                        android:layout_marginLeft="10sp"
+                        android:layout_marginRight="10sp"
+                        android:layout_marginStart="10sp"
+                        android:background="@drawable/ic_item_2_black" />
+
+                    <ImageView
+                        android:id="@+id/ivItem3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10sp"
+                        android:layout_marginLeft="10sp"
+                        android:layout_marginRight="10sp"
+                        android:layout_marginStart="10sp"
+                        android:background="@drawable/ic_item_3_black" />
+
+                    <ImageView
+                        android:id="@+id/ivItem4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10sp"
+                        android:layout_marginLeft="10sp"
+                        android:layout_marginRight="10sp"
+                        android:layout_marginStart="10sp"
+                        android:background="@drawable/ic_item_4_black" />
+
+                    <ImageView
+                        android:id="@+id/ivItem5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10sp"
+                        android:layout_marginLeft="10sp"
+                        android:layout_marginRight="10sp"
+                        android:layout_marginStart="10sp"
+                        android:background="@drawable/ic_item_5_black" />
+
+                    <ImageView
+                        android:id="@+id/ivItem6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10sp"
+                        android:layout_marginLeft="10sp"
+                        android:layout_marginRight="10sp"
+                        android:layout_marginStart="10sp"
+                        android:background="@drawable/ic_item_6_black" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_camera_icons"
+                    android:layout_width="0sp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="20sp"
+                    android:layout_marginRight="20sp"
+                    android:layout_weight="0.3"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/ivFocusBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginEnd="10sp"
+                        android:layout_marginLeft="10sp"
+                        android:layout_marginRight="10sp"
+                        android:layout_marginStart="10sp"
+                        android:background="@drawable/ic_camera_focus" />
+
+                    <ImageView
+                        android:id="@+id/ivFlashBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginEnd="10sp"
+                        android:layout_marginLeft="10sp"
+                        android:layout_marginRight="10sp"
+                        android:layout_marginStart="10sp"
+                        android:background="@drawable/ic_flash_on" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0sp"
+                android:layout_weight="0.70"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/ll_left_margin_area"
+                    android:layout_width="0sp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.02"
+                    android:background="@color/app_color"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_container_blank"
+                    android:layout_width="0sp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.96"
+                    android:orientation="vertical"></LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_right_margin_area"
+                    android:layout_width="0sp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.02"
+                    android:background="@color/app_color"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_bottom_margin_area"
+                android:layout_width="match_parent"
+                android:layout_height="0sp"
+                android:layout_weight="0.15"
+                android:background="@color/app_color"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/OCRTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/ocr_text_desc"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_container_capture_rectangle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/ll_vert_marg_top_capture_rectangle"
                 android:layout_width="match_parent"
                 android:layout_height="0sp"
                 android:layout_weight="0.5"
@@ -39,13 +222,14 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/ll_vertical_container"
+                android:id="@+id/ll_vert_container_capture_rectangle"
                 android:layout_width="match_parent"
                 android:layout_height="0sp"
                 android:layout_weight="0.1"
                 android:orientation="horizontal">
 
                 <LinearLayout
+                    android:id="@+id/ll_hor_marg_left_capture_rectangle"
                     android:layout_width="0sp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.22"
@@ -53,7 +237,7 @@
                     tools:ignore="NestedWeights,UselessLeaf" />
 
                 <ImageView
-                    android:id="@+id/imageView"
+                    android:id="@+id/iv_capture_rectangle"
                     android:layout_width="0sp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.56"
@@ -61,6 +245,7 @@
                     app:srcCompat="@drawable/rectangle" />
 
                 <LinearLayout
+                    android:id="@+id/ll_hor_marg_right_capture_rectangle"
                     android:layout_width="0sp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.22"
@@ -69,41 +254,13 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/ll_vertical_margin_bottom"
+                android:id="@+id/ll_vert_marg_bot_capture_rectangle"
                 android:layout_width="match_parent"
                 android:layout_height="0sp"
                 android:layout_weight="0.4"
                 android:orientation="horizontal" />
 
         </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/rl_result"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="false"
-            android:layout_centerVertical="false"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/OCRTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/ocr_text_desc"
-                android:textColor="#a3a3a3"
-                android:textSize="18sp" />
-
-        </LinearLayout>
-
-        <ImageView
-            android:id="@+id/ivFlashBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_margin="20sp"
-            app:srcCompat="@drawable/ic_flash_on" />
 
     </RelativeLayout>
 
@@ -117,22 +274,104 @@
         android:orientation="vertical"
         android:visibility="gone">
 
-        <ImageView
-            android:id="@+id/iv_item_obtained"
-            android:layout_width="200sp"
-            android:layout_height="150sp"
-            android:src="@drawable/rectangle" />
+        <LinearLayout
+            android:id="@+id/ll_top_margin_area_reward"
+            android:layout_width="match_parent"
+            android:layout_height="0sp"
+            android:layout_centerHorizontal="false"
+            android:layout_centerVertical="false"
+            android:layout_weight="0.15"
+            android:background="@color/app_color"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tv_achieved_element"
-            android:layout_width="200sp"
-            android:layout_height="50sp" />
+        </LinearLayout>
 
-        <Button
-            android:id="@+id/btn_reload_preview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Captura otro código" />
+        <LinearLayout
+            android:id="@+id/ll_container_reward"
+            android:layout_width="match_parent"
+            android:layout_height="0sp"
+            android:layout_weight="0.70"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/ll_left_margin_area_reward"
+                android:layout_width="0sp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.1"
+                android:background="@color/app_color"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_container_blank_reward"
+                android:layout_width="0sp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.8"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0sp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="10sp">
+
+                    <ImageView
+                        android:id="@+id/iv_item_obtained"
+                        android:layout_width="200sp"
+                        android:layout_height="150sp"
+                        android:src="@drawable/rectangle" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0sp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="10sp">
+
+                    <TextView
+                        android:id="@+id/tv_achieved_element"
+                        android:layout_width="200sp"
+                        android:layout_height="150sp"
+                        android:gravity="center"
+                        android:padding="5sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_right_margin_area_reward"
+                android:layout_width="0sp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.1"
+                android:background="@color/app_color"
+                android:orientation="vertical">
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_bottom_margin_area_reward"
+            android:layout_width="match_parent"
+            android:layout_height="0sp"
+            android:layout_weight="0.15"
+            android:background="@color/app_color"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btn_reload_preview"
+                android:layout_width="200sp"
+                android:layout_height="wrap_content"
+                android:text="Captura otro código" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
 

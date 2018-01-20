@@ -18,7 +18,7 @@ public class ParamsConstants {
 
     public static String getProperty(String key, Context context) throws IOException {
         Properties properties = new Properties();
-        ;
+
         AssetManager assetManager = context.getAssets();
         InputStream inputStream = assetManager.open(PARAMS_RESOURCE);
         properties.load(inputStream);
