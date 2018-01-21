@@ -84,16 +84,8 @@ public class SplashActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
         switch (requestCode) {
             case REQUEST_PERMISSION: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    cameraPermission = true;
-                    readWritePermission = true;
-
-
-                } else {
-                    readWritePermission = true;
-                    cameraPermission = false;
-                }
+                cameraPermission = grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                readWritePermission = grantResults.length > 0 && grantResults[1] == PackageManager.PERMISSION_GRANTED;
             }
         }
     }

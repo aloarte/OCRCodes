@@ -22,6 +22,8 @@
     <string name="descr_item4">Este es un texto largo y muy descriptivo para poder encontrar el regalo 4.</string>
     <string name="descr_item5">Este es un texto largo y muy descriptivo para poder encontrar el regalo 5.</string>
     <string name="descr_item6">Este es un texto largo y muy descriptivo para poder encontrar el regalo 6.</string>
+    <string name="descr_troll_item1">BAIA BAIA, este no vale para nada :D</string>
+    <string name="descr_troll_item2">Un mojon pa tí D:  Prueba con otro</string>
     <string name="savedPreferenceItem1">spSavedItem1</string>
     <string name="savedPreferenceItem2">spSavedItem2</string>
     <string name="savedPreferenceItem3">spSavedItem3</string>

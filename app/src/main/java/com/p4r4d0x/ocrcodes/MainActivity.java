@@ -240,6 +240,7 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
 
         try {
             processingFrameLock = searchForACodeMatch(procCode);
+
         } catch (IOException e) {
             processingFrameLock = false;
             e.printStackTrace();
@@ -283,8 +284,8 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
         ivItemsObtained[5] = findViewById(R.id.ivItem6);
 
         /*
-      Botón para el reseteo de la preview tras encontrar algun código
-     */
+         * Botón para el reseteo de la preview tras encontrar algun código
+         */
         Button btnResetPreview = findViewById(R.id.btn_reload_preview);
         btnResetPreview.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -319,6 +320,7 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
                 focusCamera();
             }
         });
+
     }
 
     /**
@@ -365,7 +367,7 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
                 if (obtained)
                     ivItemsObtained[3].setBackground(getResources().getDrawable(R.drawable.ic_item_4_white));
                 else
-                    ivItemsObtained[3].setBackground(getResources().getDrawable(R.drawable.ic_item_5_black));
+                    ivItemsObtained[3].setBackground(getResources().getDrawable(R.drawable.ic_item_4_black));
                 break;
             case ITEM_5:
                 if (obtained)
@@ -592,7 +594,7 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
                 editor.putBoolean(getString(R.string.savedPreferenceItem2), true);
                 editor.apply();
 
-            } else if (compareCodes(ParamsConstants.getProperty("codeGame1", this), improvedCode, MAX_DIFFERENCE_CHARACTERS_PER_CHUNK, MAX_DIFFERENCE_CHUNKS)) {
+            } else if (compareCodes(ParamsConstants.getProperty("codeGame1", this), improvedCode, MAX_DIFFERENCE_CHARACTERS_PER_CHUNK + 1, MAX_DIFFERENCE_CHUNKS + 1)) {
                 obtained = true;
                 llResultItem.setVisibility(View.VISIBLE);
                 rlPreview.setVisibility(View.GONE);
@@ -602,6 +604,49 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
                 editor.putBoolean(getString(R.string.savedPreferenceItem3), true);
                 editor.apply();
 
+            } else if (compareCodes(ParamsConstants.getProperty("paperCode1", this), improvedCode, MAX_DIFFERENCE_CHARACTERS_PER_CHUNK, MAX_DIFFERENCE_CHUNKS)) {
+                obtained = true;
+                llResultItem.setVisibility(View.VISIBLE);
+                rlPreview.setVisibility(View.GONE);
+                tvItemObtainedDescription.setText(getResources().getString(R.string.descr_item4));
+                ivItemObtainedSrc.setBackground(getResources().getDrawable(R.drawable.cartera));
+                changeItemIconStatus(ITEM_4, true);
+                editor.putBoolean(getString(R.string.savedPreferenceItem4), true);
+                editor.apply();
+
+            } else if (compareCodes(ParamsConstants.getProperty("paperCode2", this), improvedCode, MAX_DIFFERENCE_CHARACTERS_PER_CHUNK, MAX_DIFFERENCE_CHUNKS)) {
+                obtained = true;
+                llResultItem.setVisibility(View.VISIBLE);
+                rlPreview.setVisibility(View.GONE);
+                tvItemObtainedDescription.setText(getResources().getString(R.string.descr_item5));
+                ivItemObtainedSrc.setBackground(getResources().getDrawable(R.drawable.cartera));
+                changeItemIconStatus(ITEM_5, true);
+                editor.putBoolean(getString(R.string.savedPreferenceItem5), true);
+                editor.apply();
+
+            } else if (compareCodes(ParamsConstants.getProperty("paperCode3", this), improvedCode, MAX_DIFFERENCE_CHARACTERS_PER_CHUNK, MAX_DIFFERENCE_CHUNKS)) {
+                obtained = true;
+                llResultItem.setVisibility(View.VISIBLE);
+                rlPreview.setVisibility(View.GONE);
+                tvItemObtainedDescription.setText(getResources().getString(R.string.descr_item6));
+                ivItemObtainedSrc.setBackground(getResources().getDrawable(R.drawable.cartera));
+                changeItemIconStatus(ITEM_6, true);
+                editor.putBoolean(getString(R.string.savedPreferenceItem6), true);
+                editor.apply();
+
+            } else if (compareCodes(ParamsConstants.getProperty("trollCode1", this), improvedCode, MAX_DIFFERENCE_CHARACTERS_PER_CHUNK, MAX_DIFFERENCE_CHUNKS)) {
+                obtained = false;
+                llResultItem.setVisibility(View.VISIBLE);
+                rlPreview.setVisibility(View.GONE);
+                tvItemObtainedDescription.setText(getResources().getString(R.string.descr_troll_item1));
+                ivItemObtainedSrc.setBackground(getResources().getDrawable(R.drawable.baiabaia));
+
+            } else if (compareCodes(ParamsConstants.getProperty("trollCode2", this), improvedCode, MAX_DIFFERENCE_CHARACTERS_PER_CHUNK, MAX_DIFFERENCE_CHUNKS)) {
+                obtained = false;
+                llResultItem.setVisibility(View.VISIBLE);
+                rlPreview.setVisibility(View.GONE);
+                tvItemObtainedDescription.setText(getResources().getString(R.string.descr_troll_item2));
+                ivItemObtainedSrc.setBackground(getResources().getDrawable(R.drawable.hand));
             } else {
                 obtained = false;
             }
