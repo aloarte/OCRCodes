@@ -574,22 +574,30 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
 
             boolean obtained;
 
-            if (compareCodes(ParamsConstants.getProperty("codeCard1", this), improvedCode, MAX_DIFFERENCE_CHARACTERS_PER_CHUNK, MAX_DIFFERENCE_CHUNKS)) {
+
+            if (compareCodes(ParamsConstants.getProperty("instrCode", this), improvedCode, MAX_DIFFERENCE_CHARACTERS_PER_CHUNK, MAX_DIFFERENCE_CHUNKS)) {
+                obtained = true;
+                llResultItem.setVisibility(View.VISIBLE);
+                rlPreview.setVisibility(View.GONE);
+                tvItemObtainedDescription.setText(getResources().getString(R.string.descr_instr));
+                ivItemObtainedSrc.setBackground(getResources().getDrawable(R.drawable.almohada));
+
+            } else if (compareCodes(ParamsConstants.getProperty("codeCard1", this), improvedCode, MAX_DIFFERENCE_CHARACTERS_PER_CHUNK - 1, MAX_DIFFERENCE_CHUNKS - 1)) {
                 obtained = true;
                 llResultItem.setVisibility(View.VISIBLE);
                 rlPreview.setVisibility(View.GONE);
                 tvItemObtainedDescription.setText(getResources().getString(R.string.descr_item1));
-                ivItemObtainedSrc.setBackground(getResources().getDrawable(R.drawable.cartera));
+                ivItemObtainedSrc.setBackground(getResources().getDrawable(R.drawable.caja));
                 changeItemIconStatus(ITEM_1, true);
                 editor.putBoolean(getString(R.string.savedPreferenceItem1), true);
                 editor.apply();
 
-            } else if (compareCodes(ParamsConstants.getProperty("codeCard2", this), improvedCode, MAX_DIFFERENCE_CHARACTERS_PER_CHUNK, MAX_DIFFERENCE_CHUNKS)) {
+            } else if (compareCodes(ParamsConstants.getProperty("codeGame2", this), improvedCode, MAX_DIFFERENCE_CHARACTERS_PER_CHUNK, MAX_DIFFERENCE_CHUNKS)) {
                 obtained = true;
                 llResultItem.setVisibility(View.VISIBLE);
                 rlPreview.setVisibility(View.GONE);
                 tvItemObtainedDescription.setText(getResources().getString(R.string.descr_item2));
-                ivItemObtainedSrc.setBackground(getResources().getDrawable(R.drawable.cartera));
+                ivItemObtainedSrc.setBackground(getResources().getDrawable(R.drawable.mochila));
                 changeItemIconStatus(ITEM_2, true);
                 editor.putBoolean(getString(R.string.savedPreferenceItem2), true);
                 editor.apply();
@@ -599,37 +607,37 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
                 llResultItem.setVisibility(View.VISIBLE);
                 rlPreview.setVisibility(View.GONE);
                 tvItemObtainedDescription.setText(getResources().getString(R.string.descr_item3));
-                ivItemObtainedSrc.setBackground(getResources().getDrawable(R.drawable.cartera));
+                ivItemObtainedSrc.setBackground(getResources().getDrawable(R.drawable.maletero));
                 changeItemIconStatus(ITEM_3, true);
                 editor.putBoolean(getString(R.string.savedPreferenceItem3), true);
                 editor.apply();
 
-            } else if (compareCodes(ParamsConstants.getProperty("paperCode1", this), improvedCode, MAX_DIFFERENCE_CHARACTERS_PER_CHUNK, MAX_DIFFERENCE_CHUNKS)) {
+            } else if (compareCodes(ParamsConstants.getProperty("codeCard2", this), improvedCode, MAX_DIFFERENCE_CHARACTERS_PER_CHUNK + 1, MAX_DIFFERENCE_CHUNKS + 1)) {
                 obtained = true;
                 llResultItem.setVisibility(View.VISIBLE);
                 rlPreview.setVisibility(View.GONE);
                 tvItemObtainedDescription.setText(getResources().getString(R.string.descr_item4));
-                ivItemObtainedSrc.setBackground(getResources().getDrawable(R.drawable.cartera));
+                ivItemObtainedSrc.setBackground(getResources().getDrawable(R.drawable.maleta));
                 changeItemIconStatus(ITEM_4, true);
                 editor.putBoolean(getString(R.string.savedPreferenceItem4), true);
                 editor.apply();
 
-            } else if (compareCodes(ParamsConstants.getProperty("paperCode2", this), improvedCode, MAX_DIFFERENCE_CHARACTERS_PER_CHUNK, MAX_DIFFERENCE_CHUNKS)) {
+            } else if (compareCodes(ParamsConstants.getProperty("paperCode1", this), improvedCode, MAX_DIFFERENCE_CHARACTERS_PER_CHUNK + 1, MAX_DIFFERENCE_CHUNKS + 1)) {
                 obtained = true;
                 llResultItem.setVisibility(View.VISIBLE);
                 rlPreview.setVisibility(View.GONE);
                 tvItemObtainedDescription.setText(getResources().getString(R.string.descr_item5));
-                ivItemObtainedSrc.setBackground(getResources().getDrawable(R.drawable.cartera));
+                ivItemObtainedSrc.setBackground(getResources().getDrawable(R.drawable.cama));
                 changeItemIconStatus(ITEM_5, true);
                 editor.putBoolean(getString(R.string.savedPreferenceItem5), true);
                 editor.apply();
 
-            } else if (compareCodes(ParamsConstants.getProperty("paperCode3", this), improvedCode, MAX_DIFFERENCE_CHARACTERS_PER_CHUNK, MAX_DIFFERENCE_CHUNKS)) {
+            } else if (compareCodes(ParamsConstants.getProperty("paperCode2", this), improvedCode, MAX_DIFFERENCE_CHARACTERS_PER_CHUNK + 1, MAX_DIFFERENCE_CHUNKS + 2)) {
                 obtained = true;
                 llResultItem.setVisibility(View.VISIBLE);
                 rlPreview.setVisibility(View.GONE);
                 tvItemObtainedDescription.setText(getResources().getString(R.string.descr_item6));
-                ivItemObtainedSrc.setBackground(getResources().getDrawable(R.drawable.cartera));
+                ivItemObtainedSrc.setBackground(getResources().getDrawable(R.drawable.mochila2));
                 changeItemIconStatus(ITEM_6, true);
                 editor.putBoolean(getString(R.string.savedPreferenceItem6), true);
                 editor.apply();

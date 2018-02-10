@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">OCRCodes</string>
     <string name="run_ocr">Run OCR</string>
-    <string name="ocr_text_desc">OCR Text will appear here</string>
+    <string name="ocr_text_desc">…</string>
     <string name="title_activity_splash">SplashActivity</string>
     <string name="title_activity_main">Main</string>
     <string name="capture_rect">Rectangulo de captura</string>
@@ -16,14 +16,15 @@
     <string name="imagedescription">imageDescription</string>
     <string name="capture_another_code">Captura otro código</string>
     <string name="continue_to_main">Continuar</string>
-    <string name="descr_item1">Este es un texto largo y muy descriptivo para poder encontrar el regalo 1.</string>
-    <string name="descr_item2">Este es un texto largo y muy descriptivo para poder encontrar el regalo 2.</string>
-    <string name="descr_item3">Este es un texto largo y muy descriptivo para poder encontrar el regalo 3.</string>
-    <string name="descr_item4">Este es un texto largo y muy descriptivo para poder encontrar el regalo 4.</string>
-    <string name="descr_item5">Este es un texto largo y muy descriptivo para poder encontrar el regalo 5.</string>
-    <string name="descr_item6">Este es un texto largo y muy descriptivo para poder encontrar el regalo 6.</string>
-    <string name="descr_troll_item1">BAIA BAIA, este no vale para nada :D</string>
-    <string name="descr_troll_item2">Un mojon pa tí D:  Prueba con otro</string>
+    <string name="descr_instr">Ahora que sabes como funciona, busca el resto de códigos. Ve a por las siguientes instrucciones.</string>
+    <string name="descr_item1">Mira arriba.</string>
+    <string name="descr_item2">Busca.</string>
+    <string name="descr_item3">Pide las llaves primero.</string>
+    <string name="descr_item4">Quita lo que hay encima.</string>
+    <string name="descr_item5">Debajo.</string>
+    <string name="descr_item6">Busca.</string>
+    <string name="descr_troll_item1">BAIA BAIA, No iba a ser tan facil como eso.</string>
+    <string name="descr_troll_item2">Casi, pero no es aqui.</string>
     <string name="savedPreferenceItem1">spSavedItem1</string>
     <string name="savedPreferenceItem2">spSavedItem2</string>
     <string name="savedPreferenceItem3">spSavedItem3</string>
