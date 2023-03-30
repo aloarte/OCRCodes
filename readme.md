@@ -1,6 +1,6 @@
 # OCR Codes
 
-<img src="/screenshots/OCR.png" width="800" align="left">
+<img src="/screenshots/OCR.png" align="left">
 
 <br>
 OCR Codes its an app for Android devices developed as a game to scan codes and discover secrets. 
@@ -24,4 +24,4 @@ The app is built in native Android with **Java**.
 
 OCR demo:
 
-<img src="/results/questions.gif" width="260">
+<img src="/screenshots/demo.gif" width="260">
