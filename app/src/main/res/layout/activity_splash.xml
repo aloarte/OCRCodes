@@ -210,6 +210,7 @@
                     android:layout_width="0sp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.8"
+                    android:gravity="center"
                     android:orientation="vertical"
                     android:paddingEnd="10sp"
                     android:paddingLeft="10sp"

@@ -10,8 +10,6 @@ import android.graphics.YuvImage;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -22,6 +20,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.googlecode.tesseract.android.TessBaseAPI;
 
 import java.io.ByteArrayOutputStream;
@@ -31,6 +31,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.hardware.Camera.Parameters.FOCUS_MODE_AUTO;
@@ -131,8 +132,11 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
     private SharedPreferences sharedPref;
 
 
+    private List<Integer> imageList = new ArrayList();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -141,6 +145,10 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
         sharedPref = getPreferences(Context.MODE_PRIVATE);
         checkItemValues();
         tessTwoBaseApi = initTessTwo();
+        imageList.add(R.drawable.code_found_1);
+        imageList.add(R.drawable.code_found_2);
+        imageList.add(R.drawable.code_found_3);
+
     }
 
 
@@ -225,7 +233,6 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
      */
     @Override
     public void onProcessingFrame(ProcessStatus procStatus) {
-        Log.d("ALRALR", "onProcessingFrame");
         processingFrameLock = false;
     }
 
@@ -236,8 +243,6 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
      */
     @Override
     public void onFinishProcessingFrame(String procCode) {
-        Log.d("ALRALR", "onFinishProcessingFrame");
-
         try {
             processingFrameLock = searchForACodeMatch(procCode);
 
@@ -328,6 +333,7 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
      * cambia su icono de forma inicial
      */
     private void checkItemValues() {
+
         changeItemIconStatus(ITEM_1, sharedPref.getBoolean(getString(R.string.savedPreferenceItem1), false));
         changeItemIconStatus(ITEM_2, sharedPref.getBoolean(getString(R.string.savedPreferenceItem2), false));
         changeItemIconStatus(ITEM_3, sharedPref.getBoolean(getString(R.string.savedPreferenceItem3), false));
@@ -491,10 +497,6 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
         } else {
             return null;
         }
-
-
-
-
     }
 
     /**
@@ -502,7 +504,7 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
      * que tesseract pueda usarlo
      */
     private boolean copyTesseractFiles(File directory, String dataPath) {
-         /*
+        /*
          * El path del fichero completo
          */
         String filepath = dataPath + "/tessdata/eng.traineddata";
@@ -557,6 +559,11 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
 
     }
 
+    private Integer getRandomImage() {
+        double randomNum = Math.floor(Math.random() * (2.0 - 0.0 + 1) + 0.0);
+        return imageList.get((int) randomNum);
+    }
+
     /**
      * Busca si el código reconocido por tesseract concuerda con alguno de los codigos objetivo
      *
@@ -574,20 +581,19 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
 
             boolean obtained;
 
-
             if (compareCodes(ParamsConstants.getProperty("instrCode", this), improvedCode, MAX_DIFFERENCE_CHARACTERS_PER_CHUNK, MAX_DIFFERENCE_CHUNKS)) {
                 obtained = true;
                 llResultItem.setVisibility(View.VISIBLE);
                 rlPreview.setVisibility(View.GONE);
                 tvItemObtainedDescription.setText(getResources().getString(R.string.descr_instr));
-                ivItemObtainedSrc.setBackground(getResources().getDrawable(R.drawable.almohada));
+                ivItemObtainedSrc.setBackground(getResources().getDrawable(/*R.drawable.almohada */getRandomImage()));
 
             } else if (compareCodes(ParamsConstants.getProperty("codeCard1", this), improvedCode, MAX_DIFFERENCE_CHARACTERS_PER_CHUNK - 1, MAX_DIFFERENCE_CHUNKS - 1)) {
                 obtained = true;
                 llResultItem.setVisibility(View.VISIBLE);
                 rlPreview.setVisibility(View.GONE);
                 tvItemObtainedDescription.setText(getResources().getString(R.string.descr_item1));
-                ivItemObtainedSrc.setBackground(getResources().getDrawable(R.drawable.caja));
+                ivItemObtainedSrc.setBackground(getResources().getDrawable(/*R.drawable.caja*/getRandomImage()));
                 changeItemIconStatus(ITEM_1, true);
                 editor.putBoolean(getString(R.string.savedPreferenceItem1), true);
                 editor.apply();
@@ -597,7 +603,7 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
                 llResultItem.setVisibility(View.VISIBLE);
                 rlPreview.setVisibility(View.GONE);
                 tvItemObtainedDescription.setText(getResources().getString(R.string.descr_item2));
-                ivItemObtainedSrc.setBackground(getResources().getDrawable(R.drawable.mochila));
+                ivItemObtainedSrc.setBackground(getResources().getDrawable(/*R.drawable.mochila*/getRandomImage()));
                 changeItemIconStatus(ITEM_2, true);
                 editor.putBoolean(getString(R.string.savedPreferenceItem2), true);
                 editor.apply();
@@ -607,7 +613,8 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
                 llResultItem.setVisibility(View.VISIBLE);
                 rlPreview.setVisibility(View.GONE);
                 tvItemObtainedDescription.setText(getResources().getString(R.string.descr_item3));
-                ivItemObtainedSrc.setBackground(getResources().getDrawable(R.drawable.maletero));
+                ivItemObtainedSrc.setBackground(getResources().getDrawable(/*R.drawable.maletero*/getRandomImage()));
+
                 changeItemIconStatus(ITEM_3, true);
                 editor.putBoolean(getString(R.string.savedPreferenceItem3), true);
                 editor.apply();
@@ -617,7 +624,7 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
                 llResultItem.setVisibility(View.VISIBLE);
                 rlPreview.setVisibility(View.GONE);
                 tvItemObtainedDescription.setText(getResources().getString(R.string.descr_item4));
-                ivItemObtainedSrc.setBackground(getResources().getDrawable(R.drawable.maleta));
+                ivItemObtainedSrc.setBackground(getResources().getDrawable(/*R.drawable.maleta*/getRandomImage()));
                 changeItemIconStatus(ITEM_4, true);
                 editor.putBoolean(getString(R.string.savedPreferenceItem4), true);
                 editor.apply();
@@ -627,7 +634,7 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
                 llResultItem.setVisibility(View.VISIBLE);
                 rlPreview.setVisibility(View.GONE);
                 tvItemObtainedDescription.setText(getResources().getString(R.string.descr_item5));
-                ivItemObtainedSrc.setBackground(getResources().getDrawable(R.drawable.cama));
+                ivItemObtainedSrc.setBackground(getResources().getDrawable(/*R.drawable.cama*/getRandomImage()));
                 changeItemIconStatus(ITEM_5, true);
                 editor.putBoolean(getString(R.string.savedPreferenceItem5), true);
                 editor.apply();
@@ -637,7 +644,7 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
                 llResultItem.setVisibility(View.VISIBLE);
                 rlPreview.setVisibility(View.GONE);
                 tvItemObtainedDescription.setText(getResources().getString(R.string.descr_item6));
-                ivItemObtainedSrc.setBackground(getResources().getDrawable(R.drawable.mochila2));
+                ivItemObtainedSrc.setBackground(getResources().getDrawable(/*R.drawable.mochila2*/getRandomImage()));
                 changeItemIconStatus(ITEM_6, true);
                 editor.putBoolean(getString(R.string.savedPreferenceItem6), true);
                 editor.apply();
@@ -647,14 +654,14 @@ public class MainActivity extends AppCompatActivity implements Camera.PreviewCal
                 llResultItem.setVisibility(View.VISIBLE);
                 rlPreview.setVisibility(View.GONE);
                 tvItemObtainedDescription.setText(getResources().getString(R.string.descr_troll_item1));
-                ivItemObtainedSrc.setBackground(getResources().getDrawable(R.drawable.baiabaia));
+                ivItemObtainedSrc.setBackground(getResources().getDrawable(/*R.drawable.baiabaia*/getRandomImage()));
 
             } else if (compareCodes(ParamsConstants.getProperty("trollCode2", this), improvedCode, MAX_DIFFERENCE_CHARACTERS_PER_CHUNK, MAX_DIFFERENCE_CHUNKS)) {
                 obtained = false;
                 llResultItem.setVisibility(View.VISIBLE);
                 rlPreview.setVisibility(View.GONE);
                 tvItemObtainedDescription.setText(getResources().getString(R.string.descr_troll_item2));
-                ivItemObtainedSrc.setBackground(getResources().getDrawable(R.drawable.hand));
+                ivItemObtainedSrc.setBackground(getResources().getDrawable(/*R.drawable.hand*/getRandomImage()));
             } else {
                 obtained = false;
             }

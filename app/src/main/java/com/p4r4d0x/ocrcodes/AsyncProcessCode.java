@@ -62,29 +62,9 @@ public class AsyncProcessCode extends AsyncTask<Bitmap, String, String> {
     private String processImage(Bitmap bmpFrame) {
         if (mTess != null) {
             mTess.setImage(bmpFrame);
-//        //Para que use el diccionario
-            //mTess.setVariable("load_system_dawg","0"	);
             mTess.setVariable(TessBaseAPI.VAR_CHAR_BLACKLIST, "abcdefghijklmnñopqrstuvwxyz<>',._áéíóú\\ªº¡?¿`+´Ç¨ç^*[]{}/&%$·|@#~€");
             mTess.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST, "0123456789ABCDEFGHIJKLMNÑOPQRSTUVWXYZ-");
             mTess.setPageSegMode(TessBaseAPI.PageSegMode.PSM_SINGLE_LINE);
-
-//        mTess.setDebug(true);
-//        mTess.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST, "ABCDEFGHIJKLMNOPQRSTUVXWYZ1234567890");
-//
-//        mTess.setPageSegMode(TessBaseAPI.PageSegMode.PSM_SINGLE_CHAR);
-//        mTess.setVariable("load_system_dawg", TessBaseAPI.VAR_FALSE);
-//        mTess.setVariable("load_freq_dawg", TessBaseAPI.VAR_FALSE);
-//        mTess.setVariable("load_punc_dawg", TessBaseAPI.VAR_FALSE);
-//        mTess.setVariable("load_number_dawg", TessBaseAPI.VAR_TRUE);
-//        mTess.setVariable("load_unambig_dawg", TessBaseAPI.VAR_FALSE);
-//        mTess.setVariable("load_bigram_dawg", TessBaseAPI.VAR_FALSE);
-//        mTess.setVariable("load_fixed_length_dawgs", TessBaseAPI.VAR_FALSE);
-//        mTess.setVariable("segment_penalty_garbage", TessBaseAPI.VAR_FALSE);
-//        mTess.setVariable("segment_penalty_dict_nonword", TessBaseAPI.VAR_FALSE);
-//        mTess.setVariable("segment_penalty_dict_frequent_word", TessBaseAPI.VAR_FALSE);
-//        mTess.setVariable("segment_penalty_dict_case_ok", TessBaseAPI.VAR_FALSE);
-//        mTess.setVariable("segment_penalty_dict_case_bad", TessBaseAPI.VAR_FALSE);
-
             return mTess.getUTF8Text();
         } else {
             return null;
