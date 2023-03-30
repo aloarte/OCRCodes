@@ -1,6 +1,6 @@
 # OCR Codes
 
-<img src="/screenshots/OCR.png" align="left" width="200">
+<img src="/screenshots/OCR.png" align="center" width="200">
 
 <br>
 OCR Codes its an app for Android devices developed as a game to scan codes and discover secrets. 
